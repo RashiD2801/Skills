@@ -1,0 +1,7 @@
+{
+  "name": "concept-explorer",
+  "version": "1.0.0",
+  "description": "Generates a beautiful self-contained HTML study card for any concept, technology, or term — with analogies, real tools, curated links, and app ideas skewed toward architecture and design.",
+  "author": "RashiD2801",
+  "license": "MIT"
+}

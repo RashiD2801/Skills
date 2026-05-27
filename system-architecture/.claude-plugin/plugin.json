@@ -1,0 +1,7 @@
+{
+  "name": "system-architect",
+  "version": "1.0.0",
+  "description": "Interview-driven system architecture diagram generator. Describe any idea and get a downloadable HTML file with a minimal flow diagram and tech stack recommendation.",
+  "author": "RashiD2801",
+  "license": "MIT"
+}
