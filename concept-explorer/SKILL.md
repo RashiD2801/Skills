@@ -61,6 +61,57 @@ Write a single self-contained HTML file directly to `D:\AI\Learning\learn-[conce
 - For each idea: a name, a 2-sentence description, and a difficulty tag (Quick Build / Weekend Project / Ambitious)
 - Display as styled cards
 
+**Each idea card must have a subtle copy row at the very bottom** — muted small text, no buttons, no icons:
+
+```html
+<div class="idea-copy-row">
+  <span class="copy-cmd" onclick="copyCmd(this, '/software-developer &quot;[Idea Name]: [full 2-sentence description]&quot;')">copy for /software-developer</span>
+  <span class="copy-sep">·</span>
+  <span class="copy-cmd" onclick="copyCmd(this, '/startup-analyzer &quot;[Idea Name]: [full 2-sentence description]&quot;')">copy for /startup-analyzer</span>
+</div>
+```
+
+Replace `[Idea Name]` and `[full 2-sentence description]` with the actual content. Escape inner quotes as `&quot;` in HTML attributes.
+
+**JavaScript** — one function, placed in a `<script>` tag just before `</body>`:
+
+```javascript
+function copyCmd(el, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = el.textContent;
+    el.textContent = 'copied ✓';
+    el.style.color = '#4A7C6F';
+    setTimeout(() => { el.textContent = orig; el.style.color = ''; }, 2000);
+  });
+}
+```
+
+**CSS for the copy row** — add to `<style>`:
+
+```css
+.idea-copy-row {
+  margin-top: 0.9rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid #e8e2d9;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.copy-cmd {
+  font-size: 0.68rem;
+  color: #c0b8ae;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+  letter-spacing: 0.01em;
+}
+.copy-cmd:hover { color: #4A7C6F; }
+.copy-sep {
+  font-size: 0.68rem;
+  color: #d8d0c8;
+}
+```
+
 #### F. Git push command
 - Display a styled code block at the bottom of the HTML page showing the commands that were run (for reference)
 
@@ -94,7 +145,7 @@ Write a single self-contained HTML file directly to `D:\AI\Learning\learn-[conce
 
 **HTML file rules:**
 - All CSS in `<style>` in `<head>` (Google Fonts link is the only external dependency — acceptable)
-- No JavaScript needed — pure HTML/CSS
+- Minimal inline JavaScript allowed only for the clipboard copy function — one `copyCmd` function in a `<script>` tag before `</body>`, nothing else
 - Must render correctly in any modern browser
 
 ---
