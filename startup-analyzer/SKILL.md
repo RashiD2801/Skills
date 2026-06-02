@@ -264,7 +264,41 @@ The `startup-dev-kickstart` skill will ask the user if they want to set up a dev
 
 ---
 
-## Step 10 — Final summary to user
+## Step 10 — PHASE 6: Pitch Deck
+
+After dev kickstart completes, use AskUserQuestion:
+
+**Question:** "Do you want to generate a pitch deck for this startup?"
+**Options:**
+1. "Yes — Investor pitch deck" → AUDIENCE = investor
+2. "Yes — User/product pitch deck" → AUDIENCE = user
+3. "Yes — Both (investor + user)" → run skill twice, AUDIENCE = investor then user
+4. "No — skip the pitch deck" → jump to Step 11
+
+If generating (options 1, 2, or 3):
+
+Invoke `startup-pitch-deck` with the full context:
+
+```
+IDEA: [current idea]
+AUDIENCE: [investor | user]
+PIVOT: [pivot description if taken, else null]
+VERDICT: [BUILD|PIVOT|PASS ([confidence]%)]
+MARKET_CONTEXT: [MARKET_DATA JSON]
+COMPETITOR_CONTEXT: [COMPETITOR_DATA JSON]
+FINANCIAL_CONTEXT: [FINANCIAL_DATA JSON]
+TECH_FEASIBILITY_CONTEXT: [TECH_DATA JSON]
+TECH_STACK_CONTEXT: [STACK_DATA JSON]
+GTM_CONTEXT: [GTM_DATA JSON]
+```
+
+If option 3 (both): invoke twice sequentially — investor first, then user. Pass AUDIENCE accordingly each time.
+
+The pitch deck skill will save the `.pptx` and push to GitHub. Display its confirmation.
+
+---
+
+## Step 11 — Final summary to user
 
 After all phases complete, output:
 
@@ -275,8 +309,9 @@ After all phases complete, output:
   Idea:    [final idea analysed]
   Verdict: BUILD / PIVOT / PASS ([confidence]% confidence)
   Report:  D:\AI\Startups\[filename].html
+  Deck:    D:\AI\Startups\[slug]\[filename].pptx  (if generated)
   GitHub:  https://github.com/RashiD2801/Ideas-and-systems
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Nothing more. The report and (if chosen) the dev repo have all the detail.
+Nothing more. The report, dev repo, and pitch deck have all the detail.
