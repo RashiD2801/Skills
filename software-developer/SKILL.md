@@ -14,15 +14,51 @@ Be direct and technical. The user is an **architect and AI/ML expert** — go st
 
 ## Step 1 — Parse the idea
 
-Extract the tool/product description from args.
-
-If unclear, ask one focused question: "What should this tool do — describe the core function in 1–2 sentences."
-
-Confirm back: "Building: **[what it does in one line]**. Running technical analysis..."
+Extract the tool/product description from args. If args is empty, ask:
+> "What do you want to build? Describe the core function in 1–3 sentences."
 
 ---
 
-## Step 2 — Tech Feasibility
+## Step 2 — Build Clarification (always run before analysis)
+
+Read the idea carefully. Then ask the following questions as a numbered list — do NOT skip this step. The answers will directly shape the tech decisions, stack choices, and architecture.
+
+Output this exactly (filling in [idea summary]):
+
+---
+
+> I have your idea: **[idea summary in one line]**
+>
+> Before I start the technical analysis, I need to understand it precisely:
+>
+> 1. **Input → Output** — What goes in and what comes out? Be specific. For example: "User uploads a PDF drawing → tool extracts room data and outputs a structured spreadsheet." The more precise, the better the stack and architecture decisions.
+>
+> 2. **Who uses this?**
+>    - Just you (personal tool / script)
+>    - A small team internally
+>    - Deployed for external users (others install/use it)
+>    - Unsure yet
+>
+> 3. **Tech preferences or hard constraints** — any apply?
+>    - Must use a specific language (Python / TypeScript / other)
+>    - Must be a specific platform (CLI tool / web app / desktop app / API / plugin for Revit, Rhino, etc.)
+>    - Must run locally / offline (no cloud dependencies)
+>    - No preferences — recommend what makes sense
+>
+> 4. **The one critical thing** — what is the single function this tool absolutely must do well? Everything else is secondary. This becomes the MVP core.
+>
+> 5. **External connections** — does it need to talk to anything outside?
+>    - Specific APIs (OpenAI, Anthropic, Mapbox, Google Maps, a BIM platform, etc.)
+>    - A database or file format (IFC, DWG, GeoJSON, Shapefile, etc.)
+>    - None — self-contained
+
+---
+
+Wait for the user's response. Do not proceed until they answer. Incorporate their answers fully into all subsequent steps.
+
+---
+
+## Step 3 — Tech Feasibility
 
 Invoke `startup-tech-feasibility`:
 ```
@@ -43,7 +79,7 @@ If `showstopper_risks` is non-empty, display them prominently as warnings — bu
 
 ---
 
-## Step 3 — Tech Stack
+## Step 4 — Tech Stack
 
 Invoke `startup-tech-stack`:
 ```
@@ -57,7 +93,7 @@ Display the stack overview card from the skill output.
 
 ---
 
-## Step 4 — Architecture Diagram
+## Step 5 — Architecture Diagram
 
 Invoke `startup-architecture-diagram`:
 ```
@@ -70,7 +106,7 @@ Extract `DIAGRAM_DATA` = AGENT_OUTPUT JSON.
 
 ---
 
-## Step 5 — Dev Kickstart (automatic — no question asked)
+## Step 6 — Dev Kickstart (automatic — no question asked)
 
 Invoke `startup-dev-kickstart` with `AUTO_START: true` so it skips the confirmation question and sets up the repo immediately:
 
@@ -86,7 +122,7 @@ Note: MARKET_CONTEXT, COMPETITOR_CONTEXT, FINANCIAL_CONTEXT, and GTM_CONTEXT are
 
 ---
 
-## Step 6 — Final output
+## Step 7 — Final output
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
