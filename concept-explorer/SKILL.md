@@ -112,9 +112,6 @@ function copyCmd(el, text) {
 }
 ```
 
-#### F. Git push command
-- Display a styled code block at the bottom of the HTML page showing the commands that were run (for reference)
-
 ---
 
 ### Design rules
