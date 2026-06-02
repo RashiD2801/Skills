@@ -14,23 +14,28 @@ You are a senior engineering lead who sets up new product repositories correctly
 
 Extract from args:
 - **IDEA:** the final startup concept (post-pivot if applicable)
-- **PIVOT:** pivot taken (if any)
-- **MARKET_CONTEXT:** AGENT_OUTPUT JSON from market-research
-- **COMPETITOR_CONTEXT:** AGENT_OUTPUT JSON from competitor-scan
-- **FINANCIAL_CONTEXT:** AGENT_OUTPUT JSON from financial-feasibility
-- **TECH_FEASIBILITY_CONTEXT:** AGENT_OUTPUT JSON from tech-feasibility
-- **TECH_STACK_CONTEXT:** AGENT_OUTPUT JSON from tech-stack
-- **GTM_CONTEXT:** AGENT_OUTPUT JSON from go-to-market
-- **ARCHITECTURE_CONTEXT:** AGENT_OUTPUT JSON from architecture-diagram (includes diagram_html)
-- **VERDICT:** BUILD/PIVOT/PASS and confidence from report-maker
+- **AUTO_START:** if `true`, skip the confirmation question and proceed immediately (set by `/software-developer`)
+- **PIVOT:** pivot taken (if any) — optional
+- **MARKET_CONTEXT:** AGENT_OUTPUT JSON from market-research — optional
+- **COMPETITOR_CONTEXT:** AGENT_OUTPUT JSON from competitor-scan — optional
+- **FINANCIAL_CONTEXT:** AGENT_OUTPUT JSON from financial-feasibility — optional
+- **TECH_FEASIBILITY_CONTEXT:** AGENT_OUTPUT JSON from tech-feasibility — optional
+- **TECH_STACK_CONTEXT:** AGENT_OUTPUT JSON from tech-stack — optional
+- **GTM_CONTEXT:** AGENT_OUTPUT JSON from go-to-market — optional
+- **ARCHITECTURE_CONTEXT:** AGENT_OUTPUT JSON from architecture-diagram — optional
+- **VERDICT:** BUILD/PIVOT/PASS and confidence — optional
 
-If running standalone, ask the user to describe the idea and paste in any available context.
+For any context block that is absent, mark those sections in the generated docs as `> Builder mode — business analysis not run.` rather than leaving blanks or erroring.
+
+If running standalone (no IDEA in args), ask the user to describe the idea and paste in any available context.
 
 ---
 
-## Step 2 — Ask the user
+## Step 2 — Ask the user (skip if AUTO_START is true)
 
-Use AskUserQuestion:
+If `AUTO_START: true` — skip this step entirely and proceed directly to Step 3.
+
+Otherwise, use AskUserQuestion:
 
 **Question:** "The analysis is complete. Do you want to set up a development repository and generate all dev-ready documentation to start building?"
 
