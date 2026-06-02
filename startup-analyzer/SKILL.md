@@ -208,9 +208,31 @@ The report-maker will save the HTML file and push to GitHub. Display its confirm
 
 ---
 
-## Step 8 — Final summary to user
+## Step 8 — PHASE 5: Dev Kickstart
 
-After report-maker completes, output:
+Store the verdict and confidence from report-maker output. Then invoke `startup-dev-kickstart` with the full context:
+
+```
+IDEA: [current idea]
+PIVOT: [pivot description if taken, else null]
+PIVOT_REASON: [reason, or null]
+VERDICT: [BUILD|PIVOT|PASS ([confidence]%)]
+MARKET_CONTEXT: [MARKET_DATA JSON]
+COMPETITOR_CONTEXT: [COMPETITOR_DATA JSON]
+FINANCIAL_CONTEXT: [FINANCIAL_DATA JSON]
+TECH_FEASIBILITY_CONTEXT: [TECH_DATA JSON]
+TECH_STACK_CONTEXT: [STACK_DATA JSON]
+GTM_CONTEXT: [GTM_DATA JSON]
+ARCHITECTURE_CONTEXT: [DIAGRAM_DATA JSON]
+```
+
+The `startup-dev-kickstart` skill will ask the user if they want to set up a dev repo — handle the user's answer within that skill.
+
+---
+
+## Step 9 — Final summary to user
+
+After all phases complete, output:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -219,7 +241,8 @@ After report-maker completes, output:
   Idea:    [final idea analysed]
   Verdict: BUILD / PIVOT / PASS ([confidence]% confidence)
   Report:  D:\AI\Startups\[filename].html
+  GitHub:  https://github.com/RashiD2801/Ideas-and-systems
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Nothing more. The report has all the detail.
+Nothing more. The report and (if chosen) the dev repo have all the detail.
