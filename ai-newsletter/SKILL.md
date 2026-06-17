@@ -1,6 +1,6 @@
 ---
 name: ai-newsletter
-description: Curate recent AI news (not already in past newsletters) into a personal digest focused on AI in architecture, urban design, allied fields, and general AI. Saves as HTML and PDF in D:\AI\News and Updates\YYYY-MM-DD\. Includes journal/blog highlights and reflection questions. Trigger phrases include "run the AI newsletter", "give me today's AI digest", "any new AI news", "/ai-newsletter".
+description: Curate recent AI news (not already in past newsletters) into a personal digest focused on AI in the AEC industry (Architecture, Engineering, Construction) and general AI. Saves as HTML and PDF in D:\AI\News and Updates\YYYY-MM-DD\. Includes journal/blog highlights and reflection questions. Trigger phrases include "run the AI newsletter", "give me today's AI digest", "any new AI news", "/ai-newsletter".
 allowed-tools: WebSearch, WebFetch, Write, Bash
 ---
 
@@ -35,11 +35,11 @@ Read the HTML files from those same 3 most recent folders. Scan each file for te
 
 Use the from date and to date from Step 1 in your search queries. Append the date context (e.g. "after [Month YYYY]") to help surface fresh results.
 
-**Architecture, Urban Design and Allied Fields:**
-1. `AI architecture design tools software news after [from-month YYYY]`
-2. `artificial intelligence urban planning smart city design [YYYY]`
-3. `generative AI building design BIM parametric architecture [YYYY] latest`
-4. `AI construction real estate interior design landscape heritage [YYYY]`
+**AEC Industry (Architecture, Engineering, Construction):**
+1. `AI AEC industry architecture engineering construction news after [from-month YYYY]`
+2. `artificial intelligence BIM building information modeling construction [YYYY] latest`
+3. `generative AI structural engineering MEP civil engineering design [YYYY]`
+4. `AI construction site management project management quantity surveying [YYYY]`
 
 **General AI:**
 5. `AI news latest announcements [Month YYYY]`
@@ -64,10 +64,10 @@ Collect all results. For each story note: headline, source name, URL, publicatio
 
 | Tier | Category | Minimum to include |
 |------|----------|--------------------|
-| 1 | AI in architecture, urban design, built environment | As many as found, minimum 1 |
-| 2 | Allied fields: interior design, real estate, construction, landscape, heritage conservation | 1 if available |
+| 1 | AI in AEC: architecture, structural/civil/MEP engineering, construction | As many as found, minimum 1 |
+| 2 | Adjacent AEC: BIM platforms, quantity surveying, project management, real estate, facilities management | 1 if available |
 | 3 | General AI: models, tools, research, startups, policy | 2 to 4 |
-| 4 | Journal and blog highlights: Dezeen, ArchDaily, Metropolis, OpenAI blog, DeepMind blog, Anthropic | 1 to 3 if available |
+| 4 | Journal and blog highlights: Dezeen, ArchDaily, ENR, Construction Dive, OpenAI blog, DeepMind blog, Anthropic | 1 to 3 if available |
 
 There is no minimum total. If only 2 stories are fresh and relevant, publish those 2. Do not pad with old news.
 

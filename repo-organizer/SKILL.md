@@ -91,6 +91,7 @@ Display a compact audit summary to the user:
 
   Secrets found:       [count] — will move to .env
   Hardcoded paths:     [count] — will make agnostic
+  Large model files:   [count and filenames, or "none"] — should use Git LFS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -140,7 +141,7 @@ Then ask again before proceeding.
 
 Only create folders that make sense for this project. Use judgment:
 - **data/** — create if the repo has any CSV, JSON, JSONL, Parquet, Excel, or SQLite files outside a designated folder
-- **models/** — create if there are `.pkl`, `.pt`, `.pth`, `.onnx`, `.h5`, `.bin`, `.safetensors`, or model checkpoint files
+- **models/** — create if there are `.pkl`, `.pt`, `.pth`, `.onnx`, `.h5`, `.bin`, `.safetensors`, or model checkpoint files. Any model file over ~50MB should be tracked with Git LFS, not committed directly — flag these in the report.
 - **frontend/** — create if there are React/Vue/HTML/CSS/JS files that clearly belong to a UI layer
 - **backend/** — create if there are API/server files (FastAPI, Flask, Express, Django) that clearly belong to a server layer
 
@@ -338,17 +339,59 @@ REQUIREMENTS: Already exists — added python-dotenv
 
 ## Step 9 — Create or update README.md
 
-If `README.md` is **missing**, create a minimal but useful one:
+The README must be **detailed and information-rich**. Someone who has never seen this project should be able to fully understand what it does, why it exists, how it is structured, and how to run it — purely from reading the README. Do not write a minimal stub. Read the actual code files to extract real, accurate detail before writing.
+
+If `README.md` is **missing**, create a full one using this structure:
 
 ```markdown
-# [Project Name — derived from repo folder name]
+# [Project Name]
 
-> [One-sentence description — infer from the code or leave as TODO]
+> [One clear sentence: what the project does and who it is for.]
+
+## What This Project Does
+
+[3–5 sentences. Explain the problem it solves, how it solves it, and what the output or outcome is.
+Be specific — use the actual names of files, models, APIs, or workflows found in the code.
+A reader should finish this section knowing exactly what the project does without reading any code.]
+
+## How It Works
+
+[Describe the core workflow step by step. For example:
+1. Input: what data or request goes in
+2. Processing: what the code does with it (which modules, models, or APIs are involved)
+3. Output: what comes out and where it goes
+
+If there are multiple distinct flows (e.g. a training pipeline and an inference pipeline), describe each separately.]
+
+## Project Structure
+
+```
+[project-name]/
+├── backend/            # [describe what lives here — e.g. FastAPI routes, business logic]
+│   ├── [key file]      # [what it does]
+│   └── [key file]      # [what it does]
+├── frontend/           # [describe — e.g. React UI, HTML templates]
+│   └── [key file]      # [what it does]
+├── data/               # [describe — e.g. training datasets, raw inputs, processed outputs]
+├── models/             # [describe — e.g. saved model weights, checkpoints]
+├── [other key file]    # [what it does]
+├── .env.example        # Environment variable template — copy to .env and fill in values
+├── requirements.txt    # Python dependencies
+└── README.md
+```
+
+[After the tree, write 1–2 sentences for each major folder or file explaining its role.
+Do not leave any folder as unexplained.]
 
 ## Setup
 
+### Prerequisites
+- [List every prerequisite: Python version, Node version, Docker, specific CLI tools, etc.]
+
+### Installation
+
 ```bash
-# Clone
+# Clone the repository
 git clone <repo-url>
 cd [project-name]
 
@@ -358,40 +401,58 @@ pip install -r requirements.txt   # Python
 
 # Configure environment
 cp .env.example .env
-# Fill in your values in .env
-
-# Run
-python main.py   # or: npm start / uvicorn app:app --reload
+# Open .env and fill in all required values (see Environment Variables below)
 ```
 
-## Project Structure
+### Running the Project
 
+```bash
+# [Primary run command with a comment explaining what it starts]
+python main.py
+
+# [Any secondary commands — e.g. dev server, worker, separate frontend]
+npm run dev
 ```
-[project-name]/
-├── data/           # Datasets and data files
-├── models/         # Saved model files
-├── frontend/       # UI layer
-├── backend/        # API / server layer
-├── .env.example    # Environment variable template
-├── requirements.txt
-└── README.md
-```
+
+[If there are multiple ways to run the project (CLI vs. server vs. notebook), document each one.]
 
 ## Environment Variables
 
-See `.env.example` for all required variables. Copy it to `.env` and fill in your values.
+All secrets and configuration live in `.env`. Never commit this file.
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| [VAR_NAME] | Yes | [What it is, where to get it] |
+| [VAR_NAME] | Yes | [What it is, where to get it] |
+| [VAR_NAME] | No | [What it controls, default behaviour if unset] |
+
+Copy `.env.example` to `.env` and fill in your values.
+
+## Key Dependencies
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| [package] | [version or "latest"] | [Why it is used — one phrase] |
+| [package] | [version or "latest"] | [Why it is used] |
+
+[Only list packages that are central to the project — skip obvious stdlib or utility packages.]
+
+## Known Limitations / Notes
+
+[List any important caveats, known issues, or things a new user is likely to trip over.
+For example: "Requires GPU for inference", "Rate-limited to 60 requests/min", "Data must be in UTF-8 CSV format".]
 
 ```
 
 If `README.md` **already exists**:
-- Read it
-- Add a "Project Structure" section if absent, reflecting the actual folder layout
-- Add an "Environment Variables" section if absent, pointing to `.env.example`
-- Do not rewrite sections that already exist
+- Read the entire file first
+- Identify which of the sections above are missing or underdeveloped (less than 2 sentences, placeholder text, or generic boilerplate)
+- Expand or add those sections using real detail extracted from the code
+- Do not delete or overwrite sections that are already well-written
 
 Report:
 ```
-README: Created  (or "Updated — added Project Structure and Environment Variables sections")
+README: Created  (or "Updated — expanded [section names]")
 ```
 
 ---
@@ -494,6 +555,17 @@ FILES UPDATED:
        git push
 
   ⚠  DO NOT commit .env — it is in .gitignore for a reason.
+
+  ⚠  LARGE MODEL FILES — use Git LFS:
+     Any model file over ~50MB should not be committed directly.
+     Set up Git LFS before committing:
+       git lfs install
+       git lfs track "models/*.pkl" "models/*.pt" "models/*.pth"
+       git lfs track "models/*.onnx" "models/*.h5" "models/*.bin"
+       git lfs track "models/*.safetensors"
+       git add .gitattributes
+     Committing large binaries directly bloats the repo permanently and
+     makes it slow to clone — Git LFS keeps the repo light.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
