@@ -515,7 +515,70 @@ PRD: Already exists — not modified
 
 ---
 
-## Step 11 — Final report
+## Step 11 — Set GitHub repository description and topics
+
+Check whether the repo has a GitHub remote:
+
+```powershell
+git -C "[REPO_PATH]" remote -v
+```
+
+If no remote is found, skip this step and note it in the final report.
+
+If a GitHub remote exists:
+
+1. Check the current description and topics:
+   ```powershell
+   gh repo view --json description,repositoryTopics
+   ```
+
+2. Ask the user to provide or confirm:
+
+   Use AskUserQuestion:
+   - **Question 1:** "What should the GitHub repository description be? (1–2 sentences, shown on the repo homepage)"
+     - Pre-fill with the current description if one exists, otherwise leave blank for the user to type.
+   - **Question 2:** "What topics/tags should be set on this repo? (comma-separated, lowercase, e.g. `python, fastapi, machine-learning`)"
+     - Pre-fill with any existing topics if present.
+
+   If the user leaves both blank, skip this step.
+
+3. Apply the changes using the GitHub CLI:
+
+   ```powershell
+   # Set description
+   gh repo edit --description "[user-provided description]"
+
+   # Set topics (replace all existing topics)
+   gh repo edit --add-topic [topic1] --add-topic [topic2] ...
+   ```
+
+   To replace topics cleanly, first remove all existing topics then add the new ones:
+   ```powershell
+   # Get existing topics and remove each
+   $topics = (gh repo view --json repositoryTopics | ConvertFrom-Json).repositoryTopics.name
+   foreach ($t in $topics) { gh repo edit --remove-topic $t }
+
+   # Add new topics
+   foreach ($t in "[user-topics-split-by-comma]") { gh repo edit --add-topic $t.Trim() }
+   ```
+
+   Topics must be lowercase, use hyphens not spaces (e.g. `machine-learning` not `machine learning`). Convert any user-provided topics automatically.
+
+4. Confirm the changes were applied:
+   ```powershell
+   gh repo view --json description,repositoryTopics
+   ```
+
+Report:
+```
+GITHUB METADATA:
+  Description set: "[description]"
+  Topics set:      [topic1], [topic2], [topic3]
+```
+
+---
+
+## Step 12 — Final report
 
 Print a complete summary of every change made:
 
@@ -541,6 +604,10 @@ FILES CREATED:
 
 FILES UPDATED:
   [list: .gitignore (N entries added) / README.md (sections added) / etc.]
+
+GITHUB METADATA:
+  [Description set / not changed / skipped — no remote]
+  [Topics set: list / not changed / skipped — no remote]
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   NEXT STEPS (you handle these):
