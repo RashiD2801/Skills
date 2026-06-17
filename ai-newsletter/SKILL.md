@@ -507,7 +507,31 @@ else:
 
 ---
 
-## Step 8 - Confirm and Ask Follow-Up Questions
+## Step 8 - Show a Windows Notification and Open the Digest in the Browser
+
+After the files are saved, run this PowerShell command via Bash to show a system tray notification and open the HTML file in the default browser. Replace YYYY-MM-DD with the actual date.
+
+```powershell
+# Show Windows balloon tip notification
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+$notify = New-Object System.Windows.Forms.NotifyIcon
+$notify.Icon = [System.Drawing.SystemIcons]::Information
+$notify.BalloonTipTitle = "AI Newsletter Ready"
+$notify.BalloonTipText = "Your Monday AI digest is saved and opening now."
+$notify.BalloonTipIcon = [System.Windows.Forms.ToolTipIcon]::Info
+$notify.Visible = $true
+$notify.ShowBalloonTip(8000)
+Start-Sleep -Seconds 1
+$notify.Dispose()
+
+# Open the HTML file in the default browser
+Start-Process "D:\AI\News and Updates\YYYY-MM-DD\AI-Digest-YYYY-MM-DD.html"
+```
+
+---
+
+## Step 9 - Confirm and Ask Follow-Up Questions
 
 First, reply with exactly this:
 
